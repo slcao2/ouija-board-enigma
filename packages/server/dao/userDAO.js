@@ -11,8 +11,7 @@ const getUsers = async () => {
 };
 
 const getUser = async (userId) => {
-  // eslint-disable-next-line no-unused-vars
-  const [rows, fields] = await DBConnectionHandler.pool.execute(
+  const [rows] = await DBConnectionHandler.pool.execute(
       `SELECT * FROM ${tableName} WHERE user_id=${userId}`,
   );
   if (rows.length > 1) {
