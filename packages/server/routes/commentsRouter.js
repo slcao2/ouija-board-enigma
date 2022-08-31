@@ -1,7 +1,8 @@
 import {Router} from 'express';
 import bodyParser from 'body-parser';
-import {body, validationResult} from 'express-validator';
-import commentDAO from '../dao/commentDAO.js';
+import {body} from 'express-validator';
+import commentsController from '../controllers/commentsController.js';
+import {controllerHandler as c} from '../util/controllerHandler.js';
 
 const commentsRouter = Router();
 const {json} = bodyParser;
@@ -17,6 +18,21 @@ commentsRouter.use(json());
  */
 
 // Components
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    MappedUser:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *          description: Name of user
+ *        picture:
+ *          type: string
+ *          description: Picture of user
+ */
 
 /**
  * @swagger
@@ -38,6 +54,11 @@ commentsRouter.use(json());
  *          type: string
  *          format: date-time
  *          description: Timestamp when comment was created
+ *        voteCount:
+ *          type: integer
+ *          description: Number of votes comment received
+ *        user:
+ *          $ref: '#/components/schemas/MappedUser'
  */
 
 /**
@@ -77,13 +98,7 @@ commentsRouter.use(json());
  *                $ref: '#/components/schemas/Comment'
  */
 
-commentsRouter.get('/', async (req, res) => {
-  try {
-    res.json(await commentDAO.getComment());
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+commentsRouter.get('/', c(commentsController.getComments));
 
 /**
  * @swagger
@@ -105,20 +120,7 @@ commentsRouter.get('/', async (req, res) => {
 commentsRouter.post('/',
     body('userId').exists().isInt(),
     body('commentText').exists().isString(),
-    async (req, res) => {
-      try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          return res.status(400).json({errors: errors.array()});
-        }
-        const reqBody = req.body;
-        console.debug(reqBody);
-        await commentDAO.postComment(reqBody);
-        res.sendStatus(201);
-      } catch (error) {
-        res.status(500).send(error);
-      }
-    },
+    c(commentsController.postComment),
 );
 
 export default commentsRouter;

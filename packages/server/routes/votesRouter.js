@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import bodyParser from 'body-parser';
-import voteDAO from '../dao/voteDAO.js';
+import {controllerHandler as c} from '../util/controllerHandler.js';
+import votesController from '../controllers/votesController.js';
 
 const votesRouter = Router();
 const {json} = bodyParser;
@@ -54,13 +55,7 @@ votesRouter.use(json());
  *                $ref: '#/components/schemas/Vote'
  */
 
-votesRouter.get('/', async (req, res) => {
-  try {
-    res.json(await voteDAO.getVotes());
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+votesRouter.get('/', c(votesController.getVotes));
 
 /**
  * @swagger
@@ -86,15 +81,10 @@ votesRouter.get('/', async (req, res) => {
  *        description: Successfully deleted vote
  */
 
-votesRouter.delete('/users/:userId/comments/:commentId', async (req, res) => {
-  try {
-    const {userId, commentId} = req.params;
-    await voteDAO.deleteVote(userId, commentId);
-    res.sendStatus(204);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+votesRouter.delete(
+    '/users/:userId/comments/:commentId',
+    c(votesController.deleteVote),
+);
 
 /**
  * @swagger
@@ -120,14 +110,9 @@ votesRouter.delete('/users/:userId/comments/:commentId', async (req, res) => {
  *        description: Successfully put vote
  */
 
-votesRouter.put('/users/:userId/comments/:commentId', async (req, res) => {
-  try {
-    const {userId, commentId} = req.params;
-    await voteDAO.putVote(userId, commentId);
-    res.sendStatus(204);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+votesRouter.put(
+    '/users/:userId/comments/:commentId',
+    c(votesController.putVote),
+);
 
 export default votesRouter;

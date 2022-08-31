@@ -1,0 +1,45 @@
+import commentDAO from '../dao/commentDAO.js';
+import userDAO from '../dao/userDAO.js';
+import voteDAO from '../dao/voteDAO.js';
+
+const buildVoteMap = (votes) => {
+  const map = {};
+  votes.forEach(({comment_id}) => {
+    map[comment_id] = (map[comment_id] || 0) + 1;
+  });
+  return map;
+};
+
+const buildUserMap = (users) => {
+  const map = {};
+  users.forEach(({user_id, name, picture}) => {
+    map[user_id] = {name, picture};
+  });
+  return map;
+};
+
+const getComments = async () => {
+  const [comments, users, votes] = await Promise.all([
+    commentDAO.getComments(),
+    userDAO.getUsers(),
+    voteDAO.getVotes(),
+  ]);
+
+  const voteMap = buildVoteMap(votes);
+  const userMap = buildUserMap(users);
+  const mappedComments = comments.map((comment) => ({
+    ...comment,
+    voteCount: voteMap[comment.comment_id] || 0,
+    user: userMap[comment.user_id] || {name: 'Anonymous'},
+  }));
+  return mappedComments;
+};
+
+const postComment = async (body) => {
+  await commentDAO.postComment(body);
+};
+
+export default {
+  getComments,
+  postComment,
+};

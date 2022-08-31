@@ -21,6 +21,7 @@ const deleteVote = async (userId, commentId) => {
   return rows;
 };
 
+// TODO: Ignore insert if user_id + comment_id combination exist already
 const putVote = async (userId, commentId) => {
   const [rows] = await DBConnectionHandler.pool.execute(
       `INSERT INTO ${tableName} SET user_id=:userId, comment_id=:commentId`,

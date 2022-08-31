@@ -1,8 +1,9 @@
 import {Router} from 'express';
 import bodyParser from 'body-parser';
-import {body, validationResult} from 'express-validator';
-import userDAO from '../dao/userDAO.js';
+import {body} from 'express-validator';
 import {convertUndefinedToNull} from '../util/sanitizers.js';
+import usersController from '../controllers/usersController.js';
+import {controllerHandler as c} from '../util/controllerHandler.js';
 
 const usersRouter = Router();
 const {json} = bodyParser;
@@ -73,13 +74,7 @@ usersRouter.use(json());
  *                $ref: '#/components/schemas/User'
  */
 
-usersRouter.get('/', async (req, res) => {
-  try {
-    res.json(await userDAO.getUsers());
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+usersRouter.get('/', c(usersController.getUsers));
 
 /**
  * @swagger
@@ -109,19 +104,7 @@ usersRouter.get('/', async (req, res) => {
  *              type: string
  */
 
-usersRouter.get('/:id', async (req, res) => {
-  try {
-    const {id} = req.params;
-    const user = await userDAO.getUser(id);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).send(`User ${id} does not exist.`);
-    }
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+usersRouter.get('/:id', c(usersController.getUser));
 
 /**
  * @swagger
@@ -143,20 +126,7 @@ usersRouter.get('/:id', async (req, res) => {
 usersRouter.post('/',
     body('name').exists().isString(),
     body('picture').customSanitizer(convertUndefinedToNull),
-    async (req, res) => {
-      try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          return res.status(400).json({errors: errors.array()});
-        }
-        const reqBody = req.body;
-        console.debug(reqBody);
-        await userDAO.createUser(reqBody);
-        res.sendStatus(201);
-      } catch (error) {
-        res.status(500).send(error);
-      }
-    },
+    c(usersController.createUser),
 );
 
 export default usersRouter;

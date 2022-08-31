@@ -2,7 +2,7 @@ import DBConnectionHandler from '../util/DBConnectionHandler.js';
 
 const tableName = 'comment';
 
-const getComment = async () => {
+const getComments = async () => {
   const [rows] = await DBConnectionHandler.pool.execute(
       `SELECT * FROM ${tableName}`,
   );
@@ -20,6 +20,6 @@ const postComment = async (comment) => {
 };
 
 export default {
-  getComment,
+  getComments,
   postComment,
 };
