@@ -4,7 +4,7 @@ const tableName = 'comment';
 
 const getComments = async () => {
   const [rows] = await DBConnectionHandler.pool.execute(
-      `SELECT * FROM ${tableName}`,
+      `SELECT * FROM ${tableName} ORDER BY created_timestamp DESC`,
   );
   console.debug(rows);
   return rows;

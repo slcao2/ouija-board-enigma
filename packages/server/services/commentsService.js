@@ -1,6 +1,7 @@
 import commentDAO from '../dao/commentDAO.js';
 import userDAO from '../dao/userDAO.js';
 import voteDAO from '../dao/voteDAO.js';
+import {getElapsedTime} from '../util/timeHelpers.js';
 
 const buildVoteMap = (votes) => {
   const map = {};
@@ -27,11 +28,16 @@ const getComments = async () => {
 
   const voteMap = buildVoteMap(votes);
   const userMap = buildUserMap(users);
-  const mappedComments = comments.map((comment) => ({
-    ...comment,
-    voteCount: voteMap[comment.comment_id] || 0,
-    user: userMap[comment.user_id] || {name: 'Anonymous'},
-  }));
+  const mappedComments = comments.map((comment) => {
+    const {comment_id, user_id, comment_text, created_timestamp} = comment;
+    return {
+      commentId: comment_id,
+      commentText: comment_text,
+      elapsedTime: getElapsedTime(created_timestamp),
+      voteCount: voteMap[comment_id] || 0,
+      user: userMap[user_id] || {name: 'Anonymous'},
+    };
+  });
   return mappedComments;
 };
 

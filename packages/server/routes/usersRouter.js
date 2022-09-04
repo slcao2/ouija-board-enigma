@@ -27,7 +27,7 @@ usersRouter.use(json());
  *    User:
  *      type: object
  *      properties:
- *        user_id:
+ *        userId:
  *          type: integer
  *          description: Auto-generated id of user
  *        name:
@@ -119,8 +119,12 @@ usersRouter.get('/:id', c(usersController.getUser));
  *          schema:
  *            $ref: '#/components/schemas/PostBodyUser'
  *    responses:
- *      201:
+ *      200:
  *        description: Created user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
  */
 
 usersRouter.post('/',

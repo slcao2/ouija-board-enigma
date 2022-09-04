@@ -41,19 +41,15 @@ commentsRouter.use(json());
  *    Comment:
  *      type: object
  *      properties:
- *        comment_id:
+ *        commentId:
  *          type: integer
  *          description: Auto-generated id of comment
- *        user_id:
- *          type: integer
- *          description: Id of user who created the comment
- *        comment_text:
+ *        commentText:
  *          type: string
  *          description: Text of the comment
- *        created_timestamp:
+ *        elapsedTime:
  *          type: string
- *          format: date-time
- *          description: Timestamp when comment was created
+ *          description: Elapsed time since comment was created
  *        voteCount:
  *          type: integer
  *          description: Number of votes comment received

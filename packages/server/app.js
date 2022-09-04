@@ -1,6 +1,9 @@
 import express from 'express';
 import {serve, setup} from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import path from 'path';
+import {fileURLToPath} from 'url';
+
 import usersRouter from './routes/usersRouter.js';
 import commentsRouter from './routes/commentsRouter.js';
 import votesRouter from './routes/votesRouter.js';
@@ -24,7 +27,7 @@ const options = {
       },
     ],
   },
-  apis: ['./packages/server/routes/*.js'],
+  apis: ['./routes/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -35,6 +38,11 @@ app.use('/users', usersRouter);
 app.use('/comments', commentsRouter);
 
 app.use('/votes', votesRouter);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildPath = path.resolve(__dirname, '../client/dist');
+app.use(express.static(buildPath));
 
 app.listen(port, () => {
   console.log(`

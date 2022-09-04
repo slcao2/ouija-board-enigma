@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "LOG_LEVEL=debug node packages/server/app.js",
+    "build:client": "cd packages/client && npm run build",
+    "start:server": "cd packages/server && npm run start",
+    "start": "npm run build:client && npm run start:server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

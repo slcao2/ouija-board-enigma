@@ -1,0 +1,99 @@
+$icon-size: 36px;
+
+body {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  margin: 48px;
+}
+
+// Comment Form Box
+#comment-form {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.comment-icon {
+  width: $icon-size;
+  height: $icon-size;
+}
+
+#comment-input {
+  width: inherit;
+  margin: auto;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+#comment-button {
+  background: blueviolet;
+  color: white;
+  border-radius: 5px;
+  border: 0px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+// 
+
+.line-spacer {
+  margin: 40px 0;
+}
+
+// Comments Section
+.comment-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: start;
+  gap: 15px;
+  margin-bottom: 32px;
+}
+
+.comment-main-container {
+  width: inherit;
+}
+
+.meta-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.username {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dot {
+  color: gray;
+}
+
+.timestamp {
+  font-size: 14px;
+  color: gray;
+}
+
+.comment-button-box {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.comment-action-button {
+  border: none;
+  background: white;
+  color: darkslategray;
+  font-size: 14px;
+  padding: 0;
+}
+
+.added-vote {
+  color: orangered;
+}
+// 

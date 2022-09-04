@@ -22,8 +22,8 @@ const createUser = async (req, res) => {
   }
   const reqBody = req.body;
   console.debug(reqBody);
-  await usersService.createUser(reqBody);
-  res.sendStatus(201);
+  const createdUser = await usersService.createUser(reqBody);
+  res.json(createdUser);
 };
 
 export default {

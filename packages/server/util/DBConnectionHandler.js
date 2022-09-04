@@ -6,7 +6,7 @@ some sort of secret manager like Hashicorp Vault https://www.vaultproject.io/
 */
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: '172.26.0.1',
+  host: '172.29.32.1',
   user: 'slcao2',
   password: 'password',
   database: 'ouija',

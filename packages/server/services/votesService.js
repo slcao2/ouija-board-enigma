@@ -1,7 +1,14 @@
 import voteDAO from '../dao/voteDAO.js';
 
+const mapDBVoteToJSVote = (vote) => ({
+  voteId: vote.vote_id,
+  userId: vote.user_id,
+  commentId: vote.comment_id,
+});
+
 const getVotes = async () => {
-  return await voteDAO.getVotes();
+  const votes = await voteDAO.getVotes();
+  return votes.map(mapDBVoteToJSVote);
 };
 
 const deleteVote = async (userId, commentId) => {

@@ -25,13 +25,13 @@ votesRouter.use(json());
  *    Vote:
  *      type: object
  *      properties:
- *        vote_id:
+ *        voteId:
  *          type: integer
  *          description: Auto-generated id of vote
- *        user_id:
+ *        userId:
  *          type: integer
  *          description: Id of the user who voted
- *        comment_id:
+ *        commentId:
  *          type: integer
  *          description: Id of comment that was voted on
  */
