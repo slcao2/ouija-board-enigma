@@ -1,9 +1,5 @@
 const mysql = require('mysql2');
 
-/*
-Ideally will purge git history (or just not commit in the first place),
-but leaving as is for time sake
-*/
 const createPool = () => {
   endPool();
   module.exports.pool = mysql.createPool({

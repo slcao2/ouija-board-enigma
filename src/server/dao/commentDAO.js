@@ -11,8 +11,12 @@ const getComments = async () => {
 };
 
 const postComment = async (comment) => {
+  const parentCommentIdSet = ', parent_comment_id=:parentCommentId';
+  const insertStatement =
+    `INSERT INTO ${tableName} SET user_id=:userId, comment_text=:commentText` +
+    (comment.parentCommentId ? parentCommentIdSet : '');
   const [rows] = await DBConnectionHandler.pool.execute(
-      `INSERT INTO ${tableName} SET user_id=:userId, comment_text=:commentText`,
+      insertStatement,
       comment,
   );
   console.debug(rows);

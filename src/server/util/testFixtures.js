@@ -12,6 +12,22 @@ const commentFixture = (
   };
 };
 
+const commentFixtureWithParentId = (
+    comment_id = 2,
+    user_id = 1,
+    comment_text = 'test',
+    created_timestamp = '2022-09-08T06:12:08Z',
+    parent_comment_id = 1,
+) => {
+  return {
+    comment_id,
+    user_id,
+    comment_text,
+    created_timestamp,
+    parent_comment_id,
+  };
+};
+
 const userFixture = (
     user_id = 1,
     name = 'test',
@@ -40,4 +56,5 @@ module.exports = {
   commentFixture,
   userFixture,
   voteFixture,
+  commentFixtureWithParentId,
 };

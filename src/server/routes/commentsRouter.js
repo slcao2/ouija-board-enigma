@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const {body} = require('express-validator');
 const commentsController = require('../controllers/commentsController.js');
 const {controllerHandler: c} = require('../util/controllerHandler.js');
+const {convertUndefinedToNull} = require('../util/sanitizers.js');
 
 const commentsRouter = Router();
 const {json} = bodyParser;
@@ -53,6 +54,9 @@ commentsRouter.use(json());
  *        voteCount:
  *          type: integer
  *          description: Number of votes comment received
+ *        parentCommentId:
+ *          type: integer
+ *          description: Id of parent comment
  *        user:
  *          $ref: '#/components/schemas/MappedUser'
  */
@@ -73,6 +77,9 @@ commentsRouter.use(json());
  *        commentText:
  *          type: string
  *          description: Text of the comment
+ *        parentCommentId:
+ *          type: integer
+ *          description: Id of parent comment
  */
 
 // Endpoints
@@ -116,6 +123,7 @@ commentsRouter.get('/', c(commentsController.getComments));
 commentsRouter.post('/',
     body('userId').exists().isInt(),
     body('commentText').exists().isString(),
+    body('parentCommentId').customSanitizer(convertUndefinedToNull),
     c(commentsController.postComment),
 );
 

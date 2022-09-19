@@ -10,7 +10,8 @@ const commentsRouter = require('./routes/commentsRouter.js');
 const votesRouter = require('./routes/votesRouter.js');
 const {
   usersBaseUrl, commentsBaseUrl, votesBaseUrl,
-} = require('./util/routeConstants');
+} = require('./constants/routeConstants');
+const {initializeWebsocketServer} = require('./util/websocketServer.js');
 
 const port = process.env.IS_TEST ? 3030 : process.env.NODE_DOCKER_PORT || 3000;
 
@@ -50,13 +51,15 @@ app.use(votesBaseUrl, votesRouter);
 const buildPath = path.resolve(__dirname, '../../dist');
 app.use(express.static(buildPath));
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`
     Listening on port ${port}
     Server running at http://localhost:${port}
     Swagger Docs running at http://localhost:${port}/api-docs
   `);
 });
+
+initializeWebsocketServer(server);
 
 module.exports = {
   app,

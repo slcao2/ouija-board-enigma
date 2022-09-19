@@ -29,13 +29,16 @@ const getComments = async () => {
   const voteMap = buildVoteMap(votes);
   const userMap = buildUserMap(users);
   const mappedComments = comments.map((comment) => {
-    const {comment_id, user_id, comment_text, created_timestamp} = comment;
+    const {
+      comment_id, user_id, comment_text, created_timestamp, parent_comment_id,
+    } = comment;
     return {
       commentId: comment_id,
       commentText: comment_text,
       elapsedTime: timeHelpers.getElapsedTime(created_timestamp),
       voteCount: voteMap[comment_id] || 0,
       user: userMap[user_id] || {name: 'Anonymous'},
+      parentCommentId: parent_comment_id,
     };
   });
   return mappedComments;

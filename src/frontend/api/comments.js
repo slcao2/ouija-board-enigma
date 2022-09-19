@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {commentsBaseUrl} from '../../server/util/routeConstants';
+import {commentsBaseUrl} from '../../server/constants/routeConstants';
 
 const basePrefix = commentsBaseUrl;
 

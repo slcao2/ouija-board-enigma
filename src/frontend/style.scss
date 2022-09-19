@@ -6,12 +6,13 @@ body {
 }
 
 // Comment Form Box
-#comment-form {
+.comment-form {
   display: flex;
   width: 100%;
   flex-direction: row;
   align-items: center;
   gap: 15px;
+  margin: 10px 0;
 }
 
 .comment-icon {
@@ -19,7 +20,7 @@ body {
   height: $icon-size;
 }
 
-#comment-input {
+.comment-input {
   width: inherit;
   margin: auto;
   padding: 10px;
@@ -27,7 +28,7 @@ body {
   border: 1px solid lightgray;
 }
 
-#comment-button {
+.comment-button {
   background: blueviolet;
   color: white;
   border-radius: 5px;
@@ -49,7 +50,7 @@ body {
   flex-direction: row;
   align-items: start;
   gap: 15px;
-  margin-bottom: 32px;
+  margin-top: 24px;
 }
 
 .comment-main-container {

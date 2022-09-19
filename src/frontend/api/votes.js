@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {votesBaseUrl} from '../../server/util/routeConstants';
+import {votesBaseUrl} from '../../server/constants/routeConstants';
 
 const basePrefix = votesBaseUrl;
 
