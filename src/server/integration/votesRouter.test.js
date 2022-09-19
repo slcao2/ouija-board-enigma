@@ -3,7 +3,7 @@ const assert = require('assert');
 const app = require('../app');
 const {beforeSetup, afterSetup} = require('./util/DBContainerHelper');
 const {createPool} = require('../util/DBConnectionHandler');
-const {votesBaseUrl} = require('../util/routeConstants');
+const {votesBaseUrl} = require('../constants/routeConstants');
 const {
   postUser, postComment, putVote, getVote,
 } = require('./util/requestHelpers');

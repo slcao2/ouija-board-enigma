@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../../app');
 const {
   usersBaseUrl, commentsBaseUrl, votesBaseUrl,
-} = require('../../util/routeConstants');
+} = require('../../constants/routeConstants');
 
 const multiplePostUser = async (times, templateBody) => {
   const returnValue = [];

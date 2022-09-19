@@ -3,9 +3,11 @@ const assert = require('assert');
 const app = require('../app');
 const {beforeSetup, afterSetup} = require('./util/DBContainerHelper');
 const {createPool} = require('../util/DBConnectionHandler');
-const {commentsBaseUrl} = require('../util/routeConstants');
+const {commentsBaseUrl} = require('../constants/routeConstants');
 const {postUser, postComment} = require('./util/requestHelpers');
-const {postUserBody, postCommentBody} = require('./util/dataFixtures');
+const {
+  postUserBody, postCommentBody, postCommentBodyWithParentId,
+} = require('./util/dataFixtures');
 
 describe('commentsRouter', () => {
   let oldEnv;
@@ -26,16 +28,24 @@ describe('commentsRouter', () => {
     it('should get all comments', async () => {
       await postUser(postUserBody);
       await postComment(postCommentBody);
+      await postComment(postCommentBodyWithParentId);
       const response = await request(app.app).get(commentsBaseUrl);
 
       assert.equal(response.status, 200);
-      assert.equal(response.body.length, 1);
+      assert.equal(response.body.length, 2);
 
-      const {commentId, commentText, voteCount, user} = response.body[0];
-      assert.equal(commentId, 1);
-      assert.equal(commentText, 'mockCommentText');
-      assert.equal(voteCount, 0);
-      assert.deepStrictEqual(user, postUserBody);
+      const first = response.body[0];
+      assert.equal(first.commentId, 1);
+      assert.equal(first.commentText, 'mockCommentText');
+      assert.equal(first.voteCount, 0);
+      assert.deepStrictEqual(first.user, postUserBody);
+
+      const second = response.body[1];
+      assert.equal(second.commentId, 2);
+      assert.equal(second.commentText, 'mockCommentText');
+      assert.equal(second.voteCount, 0);
+      assert.equal(second.parentCommentId, 1);
+      assert.deepStrictEqual(second.user, postUserBody);
     });
     it('should return an empty array if no comments saved', async () => {
       const response = await request(app.app).get(commentsBaseUrl);
@@ -48,6 +58,11 @@ describe('commentsRouter', () => {
     it('should save a valid comment to the db', async () => {
       await postUser(postUserBody);
       const response = await postComment(postCommentBody);
+      assert.equal(response.status, 201);
+    });
+    it('should save a valid comment with parentId to the db', async () => {
+      await postUser(postUserBody);
+      const response = await postComment(postCommentBodyWithParentId);
       assert.equal(response.status, 201);
     });
     it('should return 500 if no user exists matching userId', async () => {

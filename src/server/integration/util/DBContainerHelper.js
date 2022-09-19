@@ -22,6 +22,7 @@ const createTables = async (container) => {
       user_id INT NOT NULL,
       comment_text TEXT NOT NULL,
       created_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      parent_comment_id INT,
       PRIMARY KEY (comment_id),
       FOREIGN KEY (user_id) REFERENCES user(user_id)
     );

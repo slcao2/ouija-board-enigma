@@ -13,15 +13,15 @@ describe('commentsService', () => {
   });
   describe('getComments', () => {
     beforeEach(() => {
-      sinon.replace(commentDAO, 'getComments', sinon.fake.returns(
-          [testFixtures.commentFixture()],
-      ));
       sinon.replace(timeHelpers, 'getElapsedTime', sinon.fake.returns(
           'A few seconds ago',
       ));
     });
 
     it('should get all the comments', async () => {
+      sinon.replace(commentDAO, 'getComments', sinon.fake.returns(
+          [testFixtures.commentFixture()],
+      ));
       sinon.replace(voteDAO, 'getVotes', sinon.fake.returns(
           [testFixtures.voteFixture()],
       ));
@@ -38,11 +38,15 @@ describe('commentsService', () => {
           name: 'test',
           picture: 'panda',
         },
+        parentCommentId: undefined,
       }];
       assert.deepStrictEqual(actual, expected);
     });
 
     it('should set vote count to 0 if no votes given', async () => {
+      sinon.replace(commentDAO, 'getComments', sinon.fake.returns(
+          [testFixtures.commentFixture()],
+      ));
       sinon.replace(userDAO, 'getUsers', sinon.fake.returns(
           [testFixtures.userFixture()],
       ));
@@ -59,11 +63,15 @@ describe('commentsService', () => {
           name: 'test',
           picture: 'panda',
         },
+        parentCommentId: undefined,
       }];
       assert.deepStrictEqual(actual, expected);
     });
 
     it('should use anonymous user if user not found', async () => {
+      sinon.replace(commentDAO, 'getComments', sinon.fake.returns(
+          [testFixtures.commentFixture()],
+      ));
       sinon.replace(userDAO, 'getUsers', sinon.fake.returns(
           [],
       ));
@@ -79,6 +87,32 @@ describe('commentsService', () => {
         user: {
           name: 'Anonymous',
         },
+        parentCommentId: undefined,
+      }];
+      assert.deepStrictEqual(actual, expected);
+    });
+
+    it('should have parentCommentId if it exists', async () => {
+      sinon.replace(commentDAO, 'getComments', sinon.fake.returns(
+          [testFixtures.commentFixtureWithParentId()],
+      ));
+      sinon.replace(voteDAO, 'getVotes', sinon.fake.returns(
+          [testFixtures.voteFixture()],
+      ));
+      sinon.replace(userDAO, 'getUsers', sinon.fake.returns(
+          [testFixtures.userFixture()],
+      ));
+      const actual = await commentsService.getComments();
+      const expected = [{
+        commentId: 2,
+        commentText: 'test',
+        elapsedTime: 'A few seconds ago',
+        voteCount: 0,
+        user: {
+          name: 'test',
+          picture: 'panda',
+        },
+        parentCommentId: 1,
       }];
       assert.deepStrictEqual(actual, expected);
     });

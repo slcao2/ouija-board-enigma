@@ -3,7 +3,7 @@ const assert = require('assert');
 const app = require('../app');
 const {beforeSetup, afterSetup} = require('./util/DBContainerHelper');
 const {createPool} = require('../util/DBConnectionHandler');
-const {usersBaseUrl} = require('../util/routeConstants');
+const {usersBaseUrl} = require('../constants/routeConstants');
 const {postUser, multiplePostUser} = require('./util/requestHelpers');
 const {postUserBody} = require('./util/dataFixtures');
 
