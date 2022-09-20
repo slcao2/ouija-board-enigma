@@ -11,10 +11,18 @@ export const buildCommentSection = (comment, isVoted) => {
   const {name, picture} = user;
 
   const icon = buildIcon(picture);
+  const verticalLine = document.createElement('div');
+  verticalLine.classList.add('icon-vertical-line');
   const commentMeta = buildCommentMeta(name, elapsedTime);
   const commentTextNode = new Text(commentText);
   const buttonContainer = buildCommentButtonContainer(
       voteCount, commentId, isVoted,
+  );
+
+  const iconContainer = document.createElement('div');
+  iconContainer.classList.add('icon-container');
+  iconContainer.append(
+      icon, verticalLine,
   );
 
   const commentMain = document.createElement('div');
@@ -27,7 +35,7 @@ export const buildCommentSection = (comment, isVoted) => {
   commentContainer.classList.add('comment-container');
   commentContainer.dataset.parentCommentId = parentCommentId;
   commentContainer.append(
-      icon, commentMain,
+      iconContainer, commentMain,
   );
 
   return commentContainer;

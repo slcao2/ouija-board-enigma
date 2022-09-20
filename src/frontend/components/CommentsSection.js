@@ -26,6 +26,17 @@ const appendCommentsToParent = (commentNodes) => {
   });
 };
 
+const hideVerticalLineOnChildlessComments = (commentNodes) => {
+  Object.values(commentNodes).forEach((node) => {
+    const hasChildComment = !!(node
+        .getElementsByClassName('comment-container').length > 0);
+    if (!hasChildComment) {
+      const verticalLine = node.getElementsByClassName('icon-vertical-line')[0];
+      verticalLine.classList.add('no-display');
+    }
+  });
+};
+
 export const buildCommentsSection = () => {
   getComments()
       .then((comments) => {
@@ -45,6 +56,7 @@ export const buildCommentsSection = () => {
                 return commentMap;
               }, {});
               appendCommentsToParent(commentNodes);
+              hideVerticalLineOnChildlessComments(commentNodes);
               document.getElementById('comments').append(...topLevelComments);
             });
       });

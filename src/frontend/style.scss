@@ -97,4 +97,21 @@ body {
 .added-vote {
   color: orangered;
 }
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.icon-vertical-line {
+  flex: 1 1 auto;
+  margin: 0 auto;
+  border: 1px solid #e3e3e3;
+  width: 0;
+}
+
+.no-display {
+  display: none;
+}
 // 
