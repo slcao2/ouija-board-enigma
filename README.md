@@ -14,7 +14,11 @@ NODE_LOCAL_PORT=<number>
 NODE_DOCKER_PORT=<number>
 ```
 
-Run `docker-compose up` to build the docker containers and start the service.
+Run `npm run start` to build the docker containers and start the service.
+
+## Tests
+
+Run all test suites using `npm run test`. You can separately run unit or integration with their corresponding commands.
 
 ## Routes
 
@@ -36,6 +40,7 @@ erDiagram
         int user_id FK
         string comment_text
         string created_timestamp
+        int parent_comment_id
     }
     USER {
         int user_id PK
@@ -51,3 +56,16 @@ erDiagram
     COMMENT ||--o{ VOTE : has
     USER ||--o{ VOTE : gives
 ```
+
+## Improvements
+
+The following is a small non-exhaustive list of things that could be improved if this was an actual production application:
+
+* UI tests
+* E2E tests
+* Snapshot tests
+* More optimized mobile viewport (given mobile mock)
+* Validation of more failure scenarios
+* Security hardening
+* Request authentication between FE and BE
+* Logging and monitoring
