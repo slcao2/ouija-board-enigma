@@ -6,7 +6,7 @@ import {setVoteCountList} from '../components/UpvoteButton.jsx';
 export let websocket;
 
 export const setupWebsocket = () => {
-  const protocol = window.location.protocol === 'https' ? 'wss' : 'ws';
+  const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
   websocket = new WebSocket(`${protocol}://${window.location.host}/ws`);
   websocket.onmessage = (event) => {
     const message = JSON.parse(event.data);
